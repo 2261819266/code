@@ -1,0 +1,10 @@
+0 mat BV
+1 mat LM
+2 mat MM
+3 mat HM
+4 gun LG
+5 shell LS
+6 gun MG
+7 shell HES
+8 shell APP
+-1

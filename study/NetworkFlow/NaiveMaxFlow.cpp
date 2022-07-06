@@ -4,6 +4,8 @@
 #include <stack>
 #include <algorithm>
 #define ll long long
+// the problem is on "https://www.luogu.com.cn/problem/P3376".
+// the way can get 73pts of 100pts.
 
 using std::queue;
 using std::stack;

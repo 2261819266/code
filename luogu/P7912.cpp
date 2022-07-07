@@ -1,36 +1,35 @@
 #include <cstdio>
+#include <queue>
 
 const int maxn = 2e5 + 8;
-struct Node {
-    Node *next, *last, *to, *lto;
-    int data, id;
-} *f = new Node();
+struct Block {
+    int l, r;
+}b[maxn];
 
+int a[maxn], cnt;
 
 int main() {
 #ifdef LOCAL
     LOCALfo
 #endif
     int n;
+    std::queue<Block> q;
     scanf("%d", &n);
-    Node *now = f, *x = f;
     for (int i = 1; i <= n; i++) {
-        scanf("%d", &now->data);
-        now->id = i;
-        if (i - n) now->next = new Node(),
-        now->next->last = now;
-        if (x->data ^ now->data) x->to = now, now->lto = x, x = now;
-        now = now->next;
+        scanf("%d", a + i);
+        if (i == 1) b[cnt] = (Block) {1, 1};
+        if (a[i] == a[i - 1]) b[cnt].r++;
+        else cnt++, b[cnt].l = b[cnt].r = i;
     }
-    while (f) {
-        Node *i;
-        for (i = f; i->to; i = i->to)
-            printf("%d ", i->id);
-        printf("%d\n", i->to->id);
-        for (; i; i = i->lto) {
-            while (i->data ^ i->next->data) {
-                i->to = 
-            }
+    for (int i = 0; i <= cnt; i++) {
+        q.push(b[i]);
+    }
+    while (!q.empty()) {
+        int m = q.size();
+        for (int i = 0; i < m; i++) {
+            Block x = q.front();
+            q.pop();
+            
         }
     }
 }

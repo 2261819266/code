@@ -33,7 +33,7 @@ int main() {
                     if (l[now] > l[j]) 
                     now = j;
                     if (l[now] == l[j] && strcmp(a[now], a[j]) > 0) 
-                    now = i;
+                    now = j;
                 } else now = j;
             }
         }

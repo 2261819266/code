@@ -12,7 +12,7 @@ const int maxn = 205, maxm = 5005;
 struct E {
     int to, next;
 } edge[maxm << 4];
-int a[maxn][maxn];
+ll a[maxn][maxn];
 int cnt, head[maxn];
 
 void init() { memset(head, -1, sizeof(head)); }
@@ -62,12 +62,12 @@ int main() {
         int u, v, w;
         scanf("%d%d%d", &u, &v, &w);
         addedge(u, v);
-        a[u][v] = w;
+        a[u][v] += w;
     }
     ll ans = 0;
     for (stack<int> i = findWay(s, t); !i.empty(); i = findWay(s, t)) {
         stack<int> j = i;
-        int min = 0x7fffffff;
+        ll min = 0x7fffffff;
         for (int k = s, l = j.top(); !j.empty(); k = l) {
             l = j.top();
             j.pop();

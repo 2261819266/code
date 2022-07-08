@@ -13,10 +13,13 @@ void addedge(int u, int v, int w) {
     head[u] = cnt++;
 }
 
+bool vis[maxn];
+
 int dfs(int root) {
-    if (!~head[root]) return 0x7fffffff;
-    int ans = 0;
+    vis[root] = true;
+    int ans = 0x7fffffff;
     for (int i = head[root]; ~i; i = edge[i].next) {
+        if (vis[edge[i].to]) continue;
         int x = dfs(edge[i].to);
         ans += std::min(x, edge[i].w);
     }
@@ -34,6 +37,7 @@ int main() {
         int u, v, w;
         scanf("%d%d%d", &u, &v, &w);
         addedge(u, v, w);
+        addedge(v, u, w);
     }
     printf("%d", dfs(r));
 }

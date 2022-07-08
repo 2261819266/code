@@ -5,7 +5,7 @@
 const int maxn = 1e5 + 8;
 struct E {
     int to, w, next;
-} edge[maxn];
+} edge[maxn << 2];
 int head[maxn], cnt;
 
 void addedge(int u, int v, int w) {
@@ -17,12 +17,13 @@ bool vis[maxn];
 
 int dfs(int root) {
     vis[root] = true;
-    int ans = 0x7fffffff;
+    int ans = 0;
     for (int i = head[root]; ~i; i = edge[i].next) {
         if (vis[edge[i].to]) continue;
         int x = dfs(edge[i].to);
         ans += std::min(x, edge[i].w);
     }
+    if (!ans) return 0x7fffffff;
     return ans;
 }
 

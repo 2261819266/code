@@ -1,45 +1,53 @@
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
+#define f(x, y, z) for (auto x = y, __ = z; x < __; ++x)
 
 const int maxn = 105;
-int a[maxn][maxn];
-int to[maxn], w[maxn], next[maxn], cnt = 0, head[maxn];
+struct E {
+	int to, w, next;
+} edge[maxn << 2];
+int head[maxn], cnt, dp[maxn][maxn];
+int n, m;
 
-void addEdge(int _u, int _v, int _w) {
-	to[_u] = _v;
-	w[_u] = _w;
-	next[_u] = head[_u];
-	head[_u] = _u;
+void addEdge(int u, int v, int w) {
+	if (!cnt) memset(head, -1, sizeof(head));
+	edge[cnt] = {v, w, head[u]};
+	head[u] = cnt++;
 }
 
-int solve(int root, int num) {
-	if (a[root][num]) return a[root][num];
-	if (!~head[root]) return w[root];
-	int d[maxn] = {}, j = 0, ans = 0;
-	for (int i = head[root]; ~i; i = next[i], j++) {
-		d[j] = solve(to[i], 0);
+struct Node { int s[2], w[2]; } node[maxn];
+
+void dfs(int r = 1, int fa = 1) {
+	for (int i = head[r], j = 0; ~i; i = edge[i].next) {
+		int to = edge[i].to;
+		if (to - fa) 
+			node[r].s[j] = to, node[r].w[j++] = edge[i].w, dfs(to, r);
 	}
-	std::sort(d, d + j, [](int x, int y) { return w[x] > w[y]; });
-	for (int i = 0; i < num; i++) {
-		ans += d[i];
+	if (!node[r].s[0]) return;
+	int ls = node[r].s[0], rs = node[r].s[1];
+	f(i, 1, n) {
+		f(j, 0, i + 1) {
+			int k = i - j;
+			dp[r][i] = std::max(dp[r][i], dp[ls][j - (j > 0)] + dp[rs][k - (k > 0)] + (j > 0) * node[r].w[0] + (k > 0) * node[r].w[1]);
+		}
 	}
-	return a[root][num] = ans;
 }
 
 int main() {
 #ifdef LOCAL
 	LOCALfo
 #endif
-	int n, m;
 	scanf("%d%d", &n, &m);
-	memset(head, -1, sizeof(head));
-	for (int i = 1; i < m; i++) {
+	for (int i = 1; i < n; i++) {
 		int x, y, z;
 		scanf("%d%d%d", &x, &y, &z);
 		addEdge(x, y, z), addEdge(y, x, z);
 	}
-	// for (int i = 0; ~i; i = next[i]) {
-		// printf("%d\n", w[i]);
+	dfs();
+	// f(i, 1, n + 1) {
+	// 	f(j, 1, n) printf("%d ", dp[i][j]);
+	// 	printf("\n");
 	// }
+	printf("%d", dp[1][m]);
 }

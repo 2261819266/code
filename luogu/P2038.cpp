@@ -13,8 +13,8 @@ ll get(int x1, int y1, int x2, int y2) {
     s2 = a[x1][y2], 
     s3 = a[x2][y1], 
     s4 = a[x1][y1];
-    if (!x1) s2 = s4 = 0;
-    if (!x2) s3 = s4 = 0;
+    if (x1 < 0) s2 = s4 = 0;
+    if (y1 < 0) s3 = s4 = 0;
     ll s = s1 + s4 - s2 - s3;
     return s;
 }

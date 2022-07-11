@@ -11,7 +11,7 @@ int main() {
 #endif
     scanf("%d", &n);
     f(i, 1, n + 1) scanf("%d", a + i), s[i] = s[i - 1] + a[i];
-    f(i, 1, n + 1) {
+    f(i, 1, n) {
         f(l, 1, n - i + 1) {
             int r = i + l;
             dp[l][r] = 0x3fffffff;

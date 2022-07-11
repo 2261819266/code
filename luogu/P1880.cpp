@@ -12,8 +12,8 @@ int main() {
 	scanf("%d", &n);
 	f(i, 1, n + 1) scanf("%d", a + i), s[i] = s[i - 1] + a[i];
 	f(i, n + 1, n * 2 + 1) a[i] = a[i - n], s[i] = s[i - 1] + a[i];
-	f(i, 1, n * 2) {
-		f(l, 1, n * 2 + 1) {
+	f(i, 1, n) {
+		f(l, 1, n * 2) {
 			int r = l + i;
 			dp[l][r][0] = 0x3fffffff;
 			f(k, l, r) {

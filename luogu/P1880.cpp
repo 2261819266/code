@@ -18,14 +18,14 @@ int main() {
 			dp[l][r][0] = 0x3fffffff;
 			f(k, l, r) {
 				dp[l][r][0] = std::min(dp[l][r][0], s[r] - s[l - 1] + dp[l][k][0] + dp[k + 1][r][0]);
-				dp[l][r][1] = std::max(dp[l][r][0], s[r] - s[l - 1] + dp[l][k][1] + dp[k + 1][r][1]);
+				dp[l][r][1] = std::max(dp[l][r][1], s[r] - s[l - 1] + dp[l][k][1] + dp[k + 1][r][1]);
 			}
 		}
 	}
 	int ans[2] = {0x3fffffff, 0};
 	f(i, 1, n + 1) {
-		ans[0] = std::min(ans[0], dp[i][i + 3][0]);
-		ans[1] = std::max(ans[1], dp[i][i + 3][1]);
+		ans[0] = std::min(ans[0], dp[i][i + n - 1][0]);
+		ans[1] = std::max(ans[1], dp[i][i + n - 1][1]);
 	}
 	printf("%d\n%d\n", ans[0], ans[1]);
 }

@@ -1,34 +1,61 @@
 #include <cstdio>
 #include <cstring>
 #include <queue>
+#define f(x, y, z) for (int x = y, __ = z; x < __; ++x)
 
 const int maxn = 1e6 + 8;
 
 struct Trie {
-#define word s[i] - 'a'
-#define pword a[p][word]
-#define f26 for (int i = 0; i < 26; i++)
-#define fs for (int i = 0; s[i]; i++)
-	static const int root = 0;
-	int a[maxn][26], fail[maxn], v[maxn], cnt;
+#define word (s[i] - 'a')
+#define pw (c[p][word])
+#define pi (c[p][i])
+	const int r = 0;
+	int c[maxn][26], fail[maxn], cnt[maxn], t = r;
 	void insert(const char *s) {
-		int p = root;
-		fs {
-			if (!pword) pword = ++cnt;
-			p = pword; 
+		int p = r;
+		f(i, 0, strlen(s)) {
+			if (!pw) pw = ++t;
+			p = pw;
 		}
-		v[p]++;
+		cnt[p]++;
 	}
 
 	void buildFail() {
 		std::queue<int> q;
-		f26 if (a[root][i]) fail[a[root][i]] = root, q.push(a[root][i]);
+		f(i, 0, 26) if (c[r][i]) q.push(c[r][i]), fail[c[r][i]] = r;
 		while (!q.empty()) {
-			int f = q.front();
+			int p = q.front();
 			q.pop();
-			f26 {
-				
+			f(i, 0, 26) {
+				if (pi) fail[pi] = c[fail[p]][i], q.push(pi);
+				else pi = c[fail[p]][i];
 			}
 		}
 	}
-};
+
+	int query(const char *s) {
+		int p = r, ans = 0;
+		f(i, 0, strlen(s)) {
+			p = pw;
+			for (int j = p; j && ~cnt[j]; j = fail[j]) {
+				ans += cnt[j];
+				cnt[j] = -1;
+			}
+		}
+		return ans;
+	}
+} AC;
+
+char s[maxn];
+
+int main() {
+#ifdef LOCAL
+	LOCALfo
+#endif
+	int n;
+	scanf("%d", &n);
+	f(i, 0, n) scanf("%s", s), AC.insert(s);
+	scanf("%s", s);
+	AC.buildFail();
+	printf("%d", AC.query(s));
+}

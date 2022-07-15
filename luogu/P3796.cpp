@@ -5,6 +5,7 @@
 #define f(x, y, z) for (int x = y, __ = z; x < __; ++x)
 
 const int maxn = 2e4;
+const int maxm = 1e6 + 8;
 
 struct ACAutomata {
 #define word (s[i] - 'a')
@@ -27,6 +28,7 @@ struct ACAutomata {
             p = pw;
         }
         to[p] = s;
+        v[p]++;
     }
 
     void build() {
@@ -45,9 +47,9 @@ struct ACAutomata {
     void query(const char *s) {
         int p = 0, ans = 0;
         f(i, 0, strlen(s)) {
-            p = pi;
-            for (int i = p; i; i = fail[i]) 
-                t[i] += v[i];
+            p = pw;
+            for (int j = p; j; j = fail[j]) 
+                t[j] += v[j];
         }
         // return ans;
     }
@@ -66,8 +68,8 @@ struct ACAutomata {
 	// }
 } AC;
 
-char s[maxn];
-char t[151][71];
+char s[maxm];
+char t[1510][710];
 
 int main() {
 #ifdef LOCAL
@@ -77,15 +79,21 @@ int main() {
     scanf("%d", &n);
     while (n) {
         AC.init();
-        scanf("%d", &n);
-        f(i, 0, n) scanf("%s", t[i]), AC.insert(t[i]);
+        f(i, 0, n) {
+            scanf("%s", t[i]), AC.insert(t[i]);
+        }
         AC.build();
         scanf("%s", s);
-        printf("%d\n", AC.query(s));
-        // int i = 0;
-        // f(j, 1, AC.cnt + 1) if (AC.t[i] < AC.t[j]) i = j;
-        // printf("%d\n", AC.t[i]);
-        // f(j, 1, AC.cnt + 1) if (AC.t[i] == AC.t[j]) printf("%s\n", t[j]);
+        AC.query(s);
+        // printf("%d\n", AC.query(s));
+        int i = 0;
+        f(j, 1, AC.cnt + 1) {
+            if (AC.t[i] < AC.t[j]) 
+                i = j;
+        }
+        printf("%d\n", AC.t[i]);
+        f(j, 1, AC.cnt + 1) if (AC.t[i] == AC.t[j]) printf("%s\n", AC.to[j]);
+        scanf("%d", &n);
     }
 }
 

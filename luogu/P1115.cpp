@@ -1,26 +1,21 @@
 #include <cstdio>
 #include <algorithm>
+#define f(x, y, z) for (auto x = y, __ = z; x < __; ++x)
 
 const int maxn = 2e5 + 8;
-int a[maxn], b[maxn];
+int a[maxn], dp[maxn];
 
 int main() {
-    int n, min = 0;
+#ifdef LOCAL    
+    LOCALfo
+#endif
+    int n, ans = -1e4;
     scanf("%d", &n);
-    for (int i = 0; i < n; i++) {
+    f(i, 1, n + 1) {
         scanf("%d", a + i);
-        min = std::min(min, a[i]);
-        if (!a[i] || (!i || n - i == 1) && a[i] < 0) i--, n--;
-        if (i) if (a[i] * a[i - 1] > 0) a[i - 1] += a[i], i--, n--;
+        dp[i] = std::max(dp[i - 1] + a[i], a[i]);
+        ans = std::max(ans, dp[i]);
     }
-    if (n == 0) {
-        printf("%d", min);
-        return 0;
-    }
-    b[0] = a[0];
-    for (int i = 2; i < n; i += 2) {
-        a[i] = std::max(a[i], a[i] + a[i - 1] + b[i - 2]);
-        
-    }
-    
+    printf("%d", ans);
+    return 0;
 }

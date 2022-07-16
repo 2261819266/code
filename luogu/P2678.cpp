@@ -1,29 +1,34 @@
 #include <cstdio>
-#include <queue>
-#include <algorithm>
-#define f(x, y, z) for (auto x = y, __ = z; x < z; ++x)
+#define f(x, y, z) for (int x = y, __ = z; x < __; ++x)
 
-const int maxn = 5e4 + 8;
-int a[maxn], d[maxn];
-struct Node {
-    int x;
-    bool operator<(const Node &b) { return d[x] < d[b.x]; }
-} b[maxn];
+const int maxn = 5e5 + 8;
+int a[maxn];
+int n, m, L;
+
+bool check(int x) {
+    int j, k = 0;
+    for (int i = 0; i <= n; ) {
+        j = i + 1;
+        while (a[j] - a[i] < x) j++, k++;
+        i = j;
+        if (k > m) return false;
+    }
+    return true;
+}
 
 int main() {
 #ifdef LOCAL
     LOCALfo
 #endif
-    int n, m, l;
-    scanf("%d%d%d", &l, &n, &m);
-    a[n + 1] = l;
-    f(i, 1, n + 1) scanf("%d", a + i), d[i - 1] = a[i] - a[i - 1], b[i] = {i};
-    std::sort(b, b + n + 1);
-    f(i, 0, m) {
-        int x = b[0].x;
-        int y;
-        if (x == 0) y = 1;
-        else if (x == n) y = n - 1;
-        else y = d[x - 1] < d[x + 1] ? x - 1 : x + 1;
+    scanf("%d%d%d", &L, &n, &m);
+    a[n + 1] = L;
+    f(i, 1, n + 1) {
+        scanf("%d", a + i);
     }
+    int l = 0, r = L + 1;
+    while (l < r) {
+        int mid = (l + r + 1) / 2;
+        check(mid) ? l = mid : r = mid - 1;
+    }    
+    printf("%d", l);
 }

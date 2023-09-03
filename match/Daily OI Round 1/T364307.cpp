@@ -36,7 +36,7 @@ void add(int u = 1) {
     }
 }
 
-int cnt, in[maxn];
+int cnt = -1, in[maxn];
 vector<vector<int>> a;
 const vector<int> VECTOR_NULL;
 
@@ -71,6 +71,7 @@ int main() {
     for (int i = 1; i <= n; i++) {
         if (!in[i]) {
             a.push_back(VECTOR_NULL);
+            cnt++;
             dfs(i);
         }
     }

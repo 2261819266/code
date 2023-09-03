@@ -38,9 +38,9 @@ void add(int u = 1) {
 
 int cnt, in[maxn];
 vector<vector<int>> a;
+const vector<int> VECTOR_NULL;
 
 void dfs(int u) {
-    if (in[u]) return;
     in[u] = true;
     a[cnt].push_back(u);
     for (int v : e[u]) {
@@ -53,7 +53,7 @@ void dfs(int u) {
 int main() {
     int n;
     scanf("%d", &n);
-    
+
     for (int i = 1; i <= n; i++) {
         scanf("%d", c + i); 
     }
@@ -68,8 +68,12 @@ int main() {
     build();
     add();
 
-    for (int i = 1; i <= n; i++){
-        dfs(i);
+    for (int i = 1; i <= n; i++) {
+        if (!in[i]) {
+            a.push_back(VECTOR_NULL);
+            dfs(i);
+        }
     }
 
+    
 }

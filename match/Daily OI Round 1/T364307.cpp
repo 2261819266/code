@@ -53,18 +53,23 @@ void dfs(int u) {
 int main() {
     int n;
     scanf("%d", &n);
+    
     for (int i = 1; i <= n; i++) {
         scanf("%d", c + i); 
     }
+
     for (int i = 1; i < n; i++) {
         int u, v;
         scanf("%d%d", &u, &v);
         addEdge(u, v);
     }
+
     f[1] = d[1] = 1;
     build();
     add();
+
     for (int i = 1; i <= n; i++){
         dfs(i);
     }
+
 }

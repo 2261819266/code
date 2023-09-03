@@ -1,0 +1,10 @@
+1.H2O+NaCl+e=HCl.
+2.H2O+G+NaCl+Fe=RBC.
+3.H2O+S+e=H2SO4.
+4.H2O+e+e+e=HNO3.
+5.Zn=e+e.
+6.HNO3+HCl+HCl+HCl=KW.
+7.C=Zn.
+8.KCl+HNO3+e+e=KNO3+HCl.
+9.S+KNO3+C=TNT
+-1

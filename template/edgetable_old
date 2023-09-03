@@ -1,0 +1,42 @@
+#ifndef EDGETABLE
+#define EDGETABLE
+
+#include <cstring>
+struct Edge {
+	int to;
+	int w;
+	Edge *next;
+	Edge (int _to = 0, int _w = 0, Edge *_next = 0) : to(_to), w(_w), next(_next) {}
+	Edge operator++() {
+		Edge *x = this->next;
+		if (x) return *x;
+		else return {-1, 0, nullptr};
+	}
+	Edge operator++(int) { return *this = ++*this; }
+	int operator*() { return w; }
+	operator bool() { return ~to; }
+	bool operator<(const Edge &b) const {
+		return w < b.w;
+	}
+};
+class EdgeTable {
+public:
+	Edge **head;
+
+	Edge begin(int x) { 
+		auto y = head[x];
+		if (y) return *y;
+		else return {-1, 0, nullptr};
+	}
+	EdgeTable(int maxn_ = 1e5 + 10) {
+		head = new Edge*[maxn_];
+		memset(head, 0, sizeof(int*) * maxn_);
+	}
+	void add_edge(int u, int v, int w = 1) {
+		Edge *e = new Edge(v, w, head[u]);
+		head[u] = e;
+	}
+};
+
+// int main() {}
+#endif

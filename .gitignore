@@ -1,0 +1,11 @@
+*.exe
+# make-problem-luogu/
+2022SummerCamp/*.zip
+2022SummerCamp/*.7z
+# NationalDay/
+# photos/
+program/
+# 原课件/
+.vscode/
+in.in
+out.out

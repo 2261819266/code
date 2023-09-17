@@ -6,4 +6,5 @@ int main() {
     while (fgets(s, 100, stdin)) {
         printf("%s", s + 3);
     }
+    
 }

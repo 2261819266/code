@@ -5,15 +5,15 @@
 
 using std::cerr;
 using std::vector;
+using std::cin;
 
 bool St;
 
-int cnt = 0;
 
 void solve() {
     int n, m, q;
     scanf("%d%d%d", &n, &m, &q);
-    cnt = 0;
+    static int cnt = 0;
 
     struct Node {
         int col, time;
@@ -26,11 +26,24 @@ void solve() {
         bool operator<(const Node &node) const {
             return time < node.time;
         }
+
+        operator int() const {
+            return col;
+        }
     };
+    vector<Node> x(n), y(m);
 
     while (q--) {
         int op, b, c;
-        vector<Node> x, y;
+        cin >> op >> b >> c;
+        (op ? y : x)[b - 1] = c;
+    }
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            printf("%d ", std::max(x[i], y[j]));
+        }
+        putchar(10);
     }
 }
 

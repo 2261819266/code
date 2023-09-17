@@ -20,8 +20,10 @@ void solve() {
         Node operator=(int c) {
             col = c;
             time = ++cnt;
+            return *this;
         }
 
+        
     };
 
     while (q--) {

@@ -8,22 +8,24 @@ using std::vector;
 
 bool St;
 
+int cnt = 0;
 
 void solve() {
     int n, m, q;
     scanf("%d%d%d", &n, &m, &q);
-
+    cnt = 0;
 
     struct Node {
         int col, time;
-        int cnt = 0;
         Node operator=(int c) {
             col = c;
             time = ++cnt;
             return *this;
         }
 
-        
+        bool operator<(const Node &node) const {
+            return time < node.time;
+        }
     };
 
     while (q--) {

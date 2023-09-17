@@ -4,9 +4,6 @@
 #include <vector>
 
 using std::cerr;
-using std::cin;
-using std::max;
-using std::min;
 using std::vector;
 
 bool St;

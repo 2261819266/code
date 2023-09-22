@@ -5,31 +5,34 @@
 using std::cin;
 using std::vector;
 using std::min;
-using std::max;
+// using std::max;
 using std::cout;
 using std::endl;
 
 
-vector<int> a, f;
+vector<int> stones, a, f;
+const int buff = 20;
 
 void P1052() {
     int l, s, t, m;
     cin >> l >> s >> t >> m;
-    a.assign(l + 1, 0);
-    f.assign(l + 1, m);
-    while (m--) {
+    a.push_back(0);
+    stones.push_back(0);
+    for (int k = 0; k < m; k++) {
         int x;
         cin >> x;
-        a[x] = 1;
+        stones.push_back(x);
     }
-    f[0] = 0;
-    for (int i = s; i <= l; i++) {
-        int L = max(0, i - t);
-        for (int j = L; j <= i - s; j++) {
-            f[i] = min(f[i], f[j]) + a[i];
+    stones.push_back(l);
+    int ls = 0;
+    for (int x : stones) {
+        if (x == 0) continue;
+        int len = min(buff, x - ls - 1);
+        for (int i = 0; i < len; i++) {
+            a.push_back(0);
         }
+        a.push_back(1);
     }
-    cout << f[l] << endl;
 }
 
 int main() {

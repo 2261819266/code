@@ -4,6 +4,7 @@
 #include <ostream>
 #include <utility>
 #include <vector>
+#include <cmath>
 
 using std::cin;
 using std::vector;
@@ -50,6 +51,15 @@ struct Block {
     }
 };
 
+int change(int x, int y) {
+    int f = 1;
+    if (x < 0) x = -x, f *= -1;
+    if (y < 0) y = -y, f *= -1;
+    int z = x / y;
+    if (z * y != x) z++;
+    return z * f;
+}
+
 void P1023() {
     int final;
     cin >> final;
@@ -94,13 +104,18 @@ void P1023() {
     Block ans;
     for (int i = 0; i < maxn - 1 && a[i] >= 0; i++) {
         if (i == final) continue;
-        int x = (final - i) * a[i] / (a[i] - a[final]);
+        int x = change((a[final] * final - a[i] * i), (a[i] - a[final]));
         Block y;
         if (i < final) y.r =x;
         if (i >= final) y.l = x;
         ans = ans * y;
     }
-    cout << ans.l << endl << ans.r;
+    // cout << ans.l - final << endl << ans.r - final;
+    int l = ans.l, r = ans.r;
+    if (l <= 0 && r >= 0) cout << 0 << endl;
+    else if (l > r) cout << "NO SOLUTION" << endl;
+    else if (l > 0) cout << l << endl;
+    else cout << r << endl;
 }   
 
 int main() {

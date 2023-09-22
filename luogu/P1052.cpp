@@ -32,7 +32,24 @@ void P1052() {
             a.push_back(0);
         }
         a.push_back(1);
+        ls = x;
     }
+    int n = a.size();
+    a[n - 1] = 0;
+    // for (int i = 0; i < t; i++) {
+    //     a.push_back(0);
+    // }
+    f.assign(a.size(), m);
+    f[0] = 0;
+    for (int i = s; i < f.size(); i++) {
+        for (int j = i - s; j >= i - t && j >= 0; j--) {
+            f[i] = min(f[i], f[j] + a[i]);
+        }
+    }
+    for (int i = f.size() - 1; i >= a.size() - 1 - t; i--) {
+        f[f.size() - 1] = min(f.back(), f[i] + a.back());
+    }
+    cout << f.back() << endl;
 }
 
 int main() {

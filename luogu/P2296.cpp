@@ -9,7 +9,7 @@ using std::queue;
 
 const int maxn = 1e4 + 8;
 
-vector<int> e[maxn], p, q;
+vector<int> e[maxn], p, q, vis;
 
 bool dfs(int u) {
     if (~p[u]) return q[u];
@@ -38,10 +38,25 @@ void P2296() {
         dfs(i);
         // cout << p[i] << " ";
     }
-    queue<int> q;
-    q.push(s);
-    while (!q.empty()) {
-        
+    struct Node {
+        int x, dep;
+    };
+    queue<Node> qu;
+    qu.push({s, 0});
+    vis.assign(n + 1, 0);
+    int ans = 0;
+    while (!qu.empty()) {
+        Node u = qu.front();
+        qu.pop();
+        if (u.x == t) {
+            cout << u.dep;
+            return;
+        }
+        for (int v : e[u.x]) {
+            if (vis[v] || !p[v]) continue;
+            vis[v] = true;
+            qu.push({v, u.dep + 1});
+        }
     }
 }
 

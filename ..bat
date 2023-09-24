@@ -1,2 +1,2 @@
-g++ ..cpp -o ..exe -g
-..exe < in.in > out.out
+g++ luogu\P6033.cpp -o luogu\P6033.exe -g
+luogu\P6033.exe < in.in > out.out

@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <winuser.h>
 
 /* This is where all the input to the window goes to */
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
@@ -16,6 +17,36 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 	}
 	return 0;
 }
+
+using namespace std;
+
+BOOL Create(
+        PCWSTR lpWindowName,
+        DWORD dwStyle,
+        DWORD dwExStyle = 0,
+        int x = CW_USEDEFAULT,
+        int y = CW_USEDEFAULT,
+        int nWidth = CW_USEDEFAULT,
+        int nHeight = CW_USEDEFAULT,
+        HWND hWndParent = 0,
+        HMENU hMenu = 0
+        )
+    {
+        WNDCLASS wc = {0};
+
+        wc.lpfnWndProc   = DERIVED_TYPE::WindowProc;
+        wc.hInstance     = GetModuleHandle(NULL);
+        wc.lpszClassName = ClassName();
+
+        RegisterClass(&wc);
+
+        m_hwnd = CreateWindowEx(
+            dwExStyle, ClassName(), lpWindowName, dwStyle, x, y,
+            nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
+            );
+
+        return (m_hwnd ? TRUE : FALSE);
+    }
 
 /* The 'main' function of Win32 GUI programs: this is where execution starts */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
@@ -62,5 +93,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		TranslateMessage(&msg); /* Translate key codes to chars if present */
 		DispatchMessage(&msg); /* Send it to WndProc */
 	}
+    
 	return msg.wParam;
 }

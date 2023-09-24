@@ -8,8 +8,8 @@ using std::vector;
 using std::min;
 
 const int maxn = 1e4 + 8;
-vector<int> e[maxn], dfn, low, in;
-int cnt = 0;
+vector<int> e[maxn], dfn, low, in, E[maxn], l2E, f;
+int dfncnt = 0, colcnt;
 
 int tarjan(int u, int n) {
     if (low[u]) {
@@ -17,12 +17,21 @@ int tarjan(int u, int n) {
         return low[u];
     }
     in[u] = true;
-    dfn[u] = low[u] = ++cnt;
+    dfn[u] = low[u] = ++dfncnt;
     for (int v : e[u]) {
         low[u] = min(low[u], tarjan(v, n));
     }
     in[u] = false;
     return low[u];
+}
+
+int dfs(int u) {
+    if (f[u]) return f[u];
+    int ans = 1;
+    for (int v : E[u]) {
+        ans += dfs(v);
+    }
+    return f[u] = ans;
 }
 
 void P2341() {
@@ -41,7 +50,24 @@ void P2341() {
         // cout << low[i] << " ";
     }
     vector<vector<int>> a;
-    
+    l2E.assign(n + 1, 0);
+    f.assign(n + 1, 0);
+    for (int i = 1; i <= n; i++) {
+        if (low[i] == dfn[i]) 
+            a.push_back(vector<int>()), l2E[i] = colcnt++;
+    }
+    for (int u = 1; u <= n; u++) {
+        a[l2E[low[u]]].push_back(u);
+        for (int v : e[u]) {
+            if (low[u] != low[v]) E[low[v]].push_back(low[u]);
+        }
+    }
+    for (int i = 1; i <= n; i++) {
+        if (dfs(i) == a.size()) {
+            cout << a[i].size();
+            return;
+        } 
+    }
 }
 
 int main() {

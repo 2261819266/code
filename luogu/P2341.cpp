@@ -38,9 +38,6 @@ void dfs(int u) {
 
 
 int main() {
-#ifdef LOCAL
-    LOCALfo
-#endif  
     int n, m;
     scanf("%d%d", &n, &m);
     for (int i = 0; i < m; i++) {

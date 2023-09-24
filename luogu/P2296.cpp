@@ -1,22 +1,25 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 
 using std::cin;
 using std::vector;
 using std::cout;
+using std::queue;
 
 const int maxn = 1e4 + 8;
 
-vector<int> e[maxn], k;
+vector<int> e[maxn], p, q;
 
 bool dfs(int u) {
-    if (~k[u]) return k[u];
-    k[u] = -2;
-    int ans = 0;
+    if (~p[u]) return q[u];
+    p[u] = -2;
+    bool x = e[u].size(), y = 0;
     for (int v : e[u]) {
-        if (k[v] >= 0) ans |= dfs(v);
+        if (q[v] > -2) y |= dfs(v), x &= dfs(v);
     }
-    return k[u] = ans;
+    p[u] = x;
+    return q[u] = y;
 }
 
 void P2296() {
@@ -28,11 +31,17 @@ void P2296() {
         e[u].push_back(v);
     }
     cin >> s >> t;
-    k.assign(n + 1, -1);
-    k[t] = 1;
+    p.assign(n + 1, -1);
+    q.assign(n + 1, -1);
+    p[t] = q[t] = 1;
     for (int i = 1; i <= n; i++) {
         dfs(i);
-        cout << k[i] << " ";
+        // cout << p[i] << " ";
+    }
+    queue<int> q;
+    q.push(s);
+    while (!q.empty()) {
+        
     }
 }
 

@@ -100,11 +100,32 @@ void solve() {
     for (int i = 0; i < n; i++) {
         Sentens x;
         int ret = x.get(var);
-        if (ret == -1) return ERR();
+        if (ret == -1) {
+            for (int j = i + 1; j < n; j++) {
+                char ch;
+                cin >> ch;
+                string sss;
+                if (ch == 'F') {
+                    for (int k = 0; k < 3; k++) {
+                        cin >> sss;
+                    }
+                }
+            }
+            return ERR();
+        }
         if (ret == -2) {
             st--;
             if (st < 0) {
-                for (int j = i + 1; j < n; j++) x.get(var);
+                for (int j = i + 1; j < n; j++) {
+                    char ch;
+                    cin >> ch;
+                    string sss;
+                    if (ch == 'F') {
+                        for (int k = 0; k < 3; k++) {
+                            cin >> sss;
+                        }
+                    }
+                }
                 return ERR();
             }
             var.pop_back();

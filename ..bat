@@ -1,2 +1,2 @@
-for 1
-    ..exe
+g++ ..cpp -o ..exe -g
+..exe < in.in > out.out

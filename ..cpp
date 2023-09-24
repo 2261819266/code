@@ -1,31 +1,49 @@
-#include <algorithm>
+#include <cstdio>
 #include <iostream>
-#include <vector>
-using namespace std;
-int f(string x, string y) {
-	int m = x.size();
-	int n = y.size();
-	vector<vector<int>> v(m + 1, vector<int>(n + 1, 0));
-	for (int i = 1; i <= m; i++) {
-		for (int j = 1; j <= n; j++) {
-			if (x[i - 1] == y[j - 1]) {
-				v[i][j] = v[i - 1][j - 1] + 1;
-			} else {
-				v[i][j] = max(v[i - 1][j], v[i][j - 1]);
-			}
-		}
+
+using std::cerr;
+using std::cin;
+using std::cout;
+using std::endl;
+
+const int n = 1e7;
+bool St;
+
+void test_cout() {
+	for (int i = 0; i < n; i++) {
+		cout << i << "\n";
 	}
-	return v[m][n];
 }
-bool g(string x, string y) {
-	if (x.size() != y.size()) {
-		return false;
+
+void test_printf() {
+	for (int i = 0; i < n; i++) {
+		printf("%d\n", i);
 	}
-	return f(x + x, y) == y.size();
 }
-int main() {
-	string x, y;
-	cin >> x >> y;
-	cout << g(x, y) << endl;
-	return 0;
+
+void print(int x) {
+	if (x < 0) putchar('-'), x = -x;
+	if (x > 9) print(x / 10);
+	putchar(x % 10 + '0');
+}
+
+void test_print() {
+	for (int i = 0; i < n; i++) {
+		print(i);
+		putchar('\n');
+	}
+}
+
+
+bool Ed;
+
+int main(int argc, char **args) {
+	std::ios::sync_with_stdio(false);
+	for (int i = 0; i < argc; i++) {
+		cerr << args[i] << "\n";
+	}
+	cerr << "\n" << (double)std::abs(&Ed - &St) / 1024.0 / 1024.0 << "Mb\n";
+	cout.tie(nullptr);
+	// test_cout();
+	cerr << "\n" << double(clock()) / CLOCKS_PER_SEC << "s\n";
 }

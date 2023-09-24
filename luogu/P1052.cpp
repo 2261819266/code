@@ -11,7 +11,7 @@ using std::endl;
 
 
 vector<int> stones, a, f;
-const int buff = 20;
+const int buff = 100;
 
 void P1052() {
     int l, s, t, m;
@@ -24,10 +24,11 @@ void P1052() {
         stones.push_back(x);
     }
     stones.push_back(l);
+    std::sort(stones.begin(), stones.end());
     int ls = 0;
     for (int x : stones) {
         if (x == 0) continue;
-        int len = min(buff, x - ls - 1);
+        int len = s == t ? (x - ls - 1) % s : min(buff, x - ls - 1);
         for (int i = 0; i < len; i++) {
             a.push_back(0);
         }

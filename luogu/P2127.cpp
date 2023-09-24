@@ -1,4 +1,5 @@
 #include <iostream>
+#include <type_traits>
 #include <vector>
 #include <algorithm>
 
@@ -8,10 +9,21 @@ using std::sort;
 using std::cout;
 using std::lower_bound;
 
+// a init  b sort  c change  d map
+// a 8 4 5 3 2 7
+// b 2 3 4 5 7 8
+// c 5 2 3 1 0 4
+// d 4 3 1 2 5 0
+vector<int> a, b, c, d; 
+
+void theSwap(int x, int y) {
+    std::swap(c[x], c[y]);
+    std::swap(d[c[x]], d[c[y]]);
+}
+
 void P2127() {
     int n;
     cin >> n;
-    vector<int> a, b, c, d; // a init  b sort  c change  d map
 
     for (int i = 0; i < n; i++) {
         int x;
@@ -27,7 +39,16 @@ void P2127() {
         d[c[i]] = i;
     }
     // for (int i : d) { cout << i << " "; }
-    
+    long long ans = 0;
+    for (int i = 0; i < n; i++) {
+        const int &now = d[i];
+        while (now != c[now]) {
+            int to = d[now];
+            ans += b[c[now]] + b[c[to]];
+            theSwap(now, to);
+        }
+    }
+    cout << ans;
 }
 
 int main() {

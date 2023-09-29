@@ -59,15 +59,16 @@ void P2341() {
     for (int u = 1; u <= n; u++) {
         a[l2E[low[u]]].push_back(u);
         for (int v : e[u]) {
-            if (low[u] != low[v]) E[low[v]].push_back(low[u]);
+            if (low[u] != low[v]) E[l2E[low[v]]].push_back(l2E[low[u]]);
         }
     }
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i < a.size(); i++) {
         if (dfs(i) == a.size()) {
             cout << a[i].size();
             return;
         } 
     }
+    cout << 0;
 }
 
 int main() {

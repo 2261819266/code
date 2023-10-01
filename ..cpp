@@ -1,49 +1,82 @@
-#include <cstdio>
 #include <iostream>
+#include <vector>
 
-using std::cerr;
+using std::vector;
 using std::cin;
 using std::cout;
-using std::endl;
+typedef long long ll;
 
-const int n = 1e7;
-bool St;
+class SegTree {
+#define ls (k << 1)
+#define rs (ls | 1)
+#define mid ((l + r) >> 1)
+#define Ls ls, l, mid
+#define Rs rs, mid + 1, r
+#define updata a[k] = a[ls] + a[rs];
+#define num (r - l + 1)
+#define lm (mid - l + 1)
+#define rm (r - mid)
+	vector<ll> a, b;
+public:
+	void assign(int n) {
+		a.assign(n + 1, 0);
+		b.assign(n + 1, 0);
+	}
 
-void test_cout() {
-	for (int i = 0; i < n; i++) {
-		cout << i << "\n";
+	ll modify(int k, int l, int r, int i, ll x) {
+		if (l == r) return a[i] = x;
+		i <= mid ? modify(Ls, i, x) : modify(Rs, i, x);
+		return updata
+	}
+
+	void push_down(int k, int l, int r) {
+		a[ls] += lm * b[k];
+		a[rs] += rm * b[k];
+		b[ls] += b[k];
+		b[rs] += b[k];
+		b[k] = 0;
+	}
+
+	ll add(int k, int l, int r, int L, int R, ll x) {
+		if (l >= L && r <= R) return a[k] += num * x, b[k] += x;
+		if (l > R || L > r) return 0;
+		push_down(k, l, r);
+		add(Ls, L, R, x);
+		add(Rs, L, R, x);
+		return updata
+	}
+
+	ll query(int k, int l, int r, int L, int R) {
+		if (l >= L && r <= R) return a[k];
+		if (l > R || L > r) return 0;
+		push_down(k, l, r);
+		return query(Ls, L, R) + query(Rs, L, R);
+	}
+} a;
+
+void solve() {
+	int n, m;
+	cin >> n >> m;
+	a.assign(n);
+
+	for (int i = 1; i <= n; i++) {
+		ll x;
+		cin >> x;
+		a.modify(1, 1, n, i, x);
+	}
+	while (m--) {
+		ll k, x, y, z;
+		cin >> k >> x >> y;
+		if (k == 1) {
+			cin >> z;
+			a.add(1, 1, n, x, y, z);
+		} else {
+			cout << a.query(1, 1, n, x, y) << "\n";
+		}
 	}
 }
 
-void test_printf() {
-	for (int i = 0; i < n; i++) {
-		printf("%d\n", i);
-	}
-}
-
-void print(int x) {
-	if (x < 0) putchar('-'), x = -x;
-	if (x > 9) print(x / 10);
-	putchar(x % 10 + '0');
-}
-
-void test_print() {
-	for (int i = 0; i < n; i++) {
-		print(i);
-		putchar('\n');
-	}
-}
-
-
-bool Ed;
-
-int main(int argc, char **args) {
-	std::ios::sync_with_stdio(false);
-	for (int i = 0; i < argc; i++) {
-		cerr << args[i] << "\n";
-	}
-	cerr << "\n" << (double)std::abs(&Ed - &St) / 1024.0 / 1024.0 << "Mb\n";
-	cout.tie(nullptr);
-	// test_cout();
-	cerr << "\n" << double(clock()) / CLOCKS_PER_SEC << "s\n";
+int main() {
+	solve();
+	return 0;
 }

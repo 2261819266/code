@@ -1,7 +1,9 @@
+#include <ctime>
 #include <iostream>
 #include <vector>
 
 using std::cin;
+using std::cerr;
 using std::vector;
 
 const long long M = 1e9 + 7;
@@ -9,14 +11,16 @@ const long long M = 1e9 + 7;
 void sea() {
     int n;
     cin >> n;
-    vector<int> a;
+    vector<int> a(n);
     long long ans = 1, cut = 1;
     for (int i = 0; i < n; i++) {
         int x, y;
         cin >> x >> y;
-        a.push_back(y - x + 1);
-        ans *= a.back();
-        cut *= (a.back() - 1);
+        // scanf("%d%d", &x, &y);
+        a[i] = y - x + 1;
+        // a.push_back(y - x + 1);
+        ans *= a[i];
+        cut *= (a[i] - 1);
         ans %= M;
         cut %= M;
     }
@@ -29,8 +33,9 @@ void sea() {
 
 int main() {
     fo(sea)
-    std::ios::sync_with_stdio(true);
+    std::ios::sync_with_stdio(false);
     cin.tie(0);
     sea();
+    cerr << (double)clock() / CLOCKS_PER_SEC << "s\n";
     return 0;
 }

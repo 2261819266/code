@@ -1,119 +1,96 @@
-#include <cstdio>
+#include <iostream>
 #include <vector>
 #include <string>
 #include <queue>
-#include <iostream>
 
-using std::vector;
-using std::string;
-using std::queue;
 using std::cin;
 using std::cout;
+using std::string;
+using std::vector;
+using std::queue;
 
-struct ACAutomata {
-    struct Node {
-        vector<int> a;
-        size_t cnt;
+struct ACAutomaton {
+#define word (s[i] - 'a')
+#define pw a[p][word]
+    struct Trie {
+        int a[26];
         int fail;
-        Node () {
-            a.clear();
-            a.assign(26, -1);
-            cnt = 0;
-            fail = -1;
-        }
         int &operator[](int x) {
             return a[x];
         }
-    } ;
-    vector<Node> a;
-    static const int root = 0;
-    void clear() {
-        a.clear();
-        a.push_back({});
-    }
 
-    ACAutomata() {
-		clear();
-    }
+        int operator++(int) {
+            return fail += 1;
+        }
+    };
 
-    int add() {
-        a.push_back({});
-        return a.size() - 1;
+    vector<Trie> a;
+    vector<int> v;
+    int cnt = 1;
+
+    void init() {
+        a.assign(100000, {});
+        v.assign(100000, 0);
     }
 
     void insert(const string &s) {
-        int p = root;
-        for (char i : s) {
-            i -= 'a';
-            if (!~a[p][i]) a[p][i] = add();
-            p = a[p][i];
+        int p = 1;
+        for (int i = 0; i < s.size(); i++) {
+            if (!pw) pw = ++cnt;
+            p = pw;
         }
-        a[p].cnt++;
+        a[p]++;
     }
 
     void build() {
         queue<int> q;
-        int p = root;
-        a[0].fail = 0;
         for (int i = 0; i < 26; i++) {
-            if (~a[p][i]) {
-                a[a[p][i]].fail = p;
-                q.push(a[p][i]);
-            } else a[p][i] = 0;
+            if (a[1][i]) {
+                q.push(a[1][i]);
+                a[a[1][i]].fail = 1;
+            }
         }
         while (!q.empty()) {
-            p = q.front();
+            int u = q.front();
             q.pop();
             for (int i = 0; i < 26; i++) {
-                if (~a[p][i]) {
-                    a[a[p][i]].fail = a[a[p].fail][i];
-                    q.push(a[p][i]);
+                if (a[u][i]) {
+                    q.push(a[u][i]);
+                    a[a[u][i]].fail = a[a[u].fail][i];
                 } else {
-                    a[p][i] = a[a[p].fail][i];
+                    a[a[u][i]].fail = a[a[u].fail][i];
                 }
             }
         }
     }
 
-    size_t query(const string &s) const {
-        vector<bool> vis(a.size(), false);
-        size_t ans = 0;
-        int p = root;
-        for (char i : s) {
-            i -= 'a';
-            p = a[p].a[i];
-            for (int j = p; j > root && !vis[j]; j = a[j].fail) {
-                ans += a[j].cnt;
-                vis[j] = true;
+    int query(const string &s) {
+        int p = 1, ans = 0;
+        for (int i = 0; i < s.size(); i++) {
+            p = pw;
+            for (int j = p; j >= 1; j = a[j].fail) {
+                ans += v[j];
+                v[j] = 0;
             }
         }
         return ans;
     }
 } a;
 
-size_t solve(const string t, const vector<string> &s) {
-    a.clear();
-    for (string i : s) { 
-        a.insert(i);
-    }
-    a.build();
-    return a.query(t);
-}
-
 void P3808() {
-	vector<string> s;
-	string t;
-	int n;
-	scanf("%d", &n);
-	for (int i = 0; i < n; i++) {
-		cin >> t;
-		s.push_back(t);
-	}
-	cin >> t;
-	cout << solve(t, s);
+    int n;
+    cin >> n;
+    a.init();
+    string s;
+    for (int i = 0; i < n; i++) {
+        cin >> s;
+        a.insert(s);
+    }
+    cin >> s;
+    cout << a.query(s);
 }
 
 int main() {
-	P3808();
-	return 0;
+    P3808();
+    return 0;
 }

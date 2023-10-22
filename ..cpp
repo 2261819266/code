@@ -7,7 +7,7 @@ using std::cin;
 using std::cout;
 using std::vector;
 
-class SegTree {
+struct SegTree {
 #define ls (k << 1)
 #define rs (ls | 1)
 #define mid ((l + r) >> 1)
@@ -18,10 +18,11 @@ class SegTree {
 #define lm (mid - l + 1)
 #define rm (r - mid)
 	vector<ll> a, b;
-public:
 	void assign(int n) {
-		a.assign(n + 1, 0);
-		b.assign(n + 1, 0);
+		a.assign(n << 2, 0);
+		b.assign(n << 2, 0);
+		// a.reserve(n + 1);
+		// b.reserve(n + 1);
 	}
 
 	ll modify(int k, int l, int r, int i, ll x) {
@@ -53,12 +54,14 @@ public:
 		push_down(k, l, r);
 		return query(Ls, L, R) + query(Rs, L, R);
 	}
-} a;
+};
+
+SegTree a;
 
 int main() {
 	int n, m;
 	cin >> n >> m;
-	a.assign(n);
+	a.assign(n + 1);
 	for (int i = 1; i <= n; i++) {
 		ll x;
 		cin >> x;

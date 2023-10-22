@@ -1,73 +1,79 @@
-#include <cstdio>
-#include <cstring>
-#include <cmath>
+#include <iostream>
+#include <vector>
 
-const int maxn = 1e6 + 8, maxl = 20;
+using std::cin;
+using std::cout;
+using std::vector;
 
-int n, m, root, cnt = 0, head[maxn], d[maxn], fa[maxn], a[maxn][maxl], l;
-struct E {
-	int to, next;
-} edge[maxn << 2];
+int n, m, s;
+vector<vector<int>> e, f;
+vector<int> fa, d;
+const int maxl = 20;
 
-void addEdge(int u, int v) {
-	edge[cnt] = (E) {v, head[u]};
-	head[u] = cnt++;
+void add_edge(int u, int v) {
+	e[u].push_back(v);
+	e[v].push_back(u);
 }
 
-void dfs(int root, int depth = 1) {
-	d[root] = depth;
-	for (int i = head[root]; ~i; i = edge[i].next) {
-		if (!d[edge[i].to]) dfs(edge[i].to, depth + 1);
+void build_tree(int u = s) {
+	for (int v : e[u]) {
+		if (!fa[v]) fa[v] = u, d[v] = d[u] + 1, build_tree(v);
 	}
 }
 
-void getFather(int root) {
-	for (int i = head[root]; ~i; i = edge[i].next) {
-		if (!fa[edge[i].to]) fa[edge[i].to] = root, getFather(edge[i].to);
-	}
-}
-
-void geta(int m) {
-	for (int i = 0; i <= m; i++) {
-		for (int j = 1; j <= n; j++) {
-			if (i == 0) a[j][i] = fa[j];
-			else a[j][i] = a[a[j][i - 1]][i - 1];
+void build_f() {
+	for (int i = 0; i < maxl; i++) {
+		for (int u = 1; u <= n; u++) {
+			if (!i) {
+				f[u][i] = fa[u];
+			} else {
+				f[u][i] = f[f[u][i - 1]][i - 1];
+			}
 		}
 	}
 }
 
-int getLCA(int u, int v) {
-	if (d[u] < d[v]) return getLCA(v, u);
-	for (int i = l; i >= 0; i--) {
-		if (d[a[u][i]] >= d[v] && d[u]) u = a[u][i];
+int get_LCA(int u, int v) {
+	if (d[u] != d[v]) {
+		if (d[u] < d[v]) return get_LCA(v, u);
+		for (int i = maxl - 1; i >= 0; i--) {
+			if (d[f[u][i]] > d[v]) u = f[u][i];
+		}
+		u = fa[u];
 	}
 	if (u == v) return u;
-	for (int i = l; i >= 0; i--) {
-		if (a[u][i] != a[v][i]) u = a[u][i], v = a[v][i];
+	for (int i = maxl - 1; i >= 0; i--) {
+		if (f[u][i] != f[v][i]) u = f[u][i], v = f[v][i];
 	}
 	return fa[u];
 }
 
-int main() {
-#ifdef LOCAL
-	LOCALfo
-#endif
-	memset(head, -1, sizeof(head));
-	scanf("%d%d%d", &n, &m, &root);
+void P3379() {
+	std::ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	cin >> n >> m >> s;
+	e.assign(n + 1, vector<int>());
+	fa.assign(n + 1, 0);
+	d.assign(n + 1, 0);
+	f.assign(n + 1, vector<int>(maxl));
+	fa[s] = s;
+	d[s] = 1;
 	for (int i = 1; i < n; i++) {
 		int u, v;
-		scanf("%d%d", &u, &v);
-		addEdge(u, v);
-		addEdge(v, u);
+		cin >> u >> v;
+		add_edge(u, v);
 	}
-	dfs(root);
-	fa[root] = root;
-	getFather(root);
-	l = log2(n) + 1;
-	geta(l);
-	for (int i = 0; i < m; i++) {
+	build_tree();
+	build_f();
+	while (m--) {
 		int u, v;
-		scanf("%d%d", &u, &v);
-		printf("%d\n", getLCA(u, v));
+		cin >> u >> v;
+		cout << get_LCA(u, v) << "\n";
 	}
+}
+
+int main() {
+	P3379();
+	return 0;
 }

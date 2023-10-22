@@ -16,65 +16,40 @@ vector<int> turn(vector<int> a) {
 }
 
 const int inf = 0x7fffffff;
+vector<vector<int>> a;
+int T, k;
+int n;
+
+bool check(int x) {
+    vector<vector<int>> b(k, vector<int>(2, 0));
+    for (int j = 0; j < n; j++) {
+        if (j == 0) {
+            for (int i = 0; i < k; i++) {
+                b[i][0] = b[i][1] = a[i][j];
+            }
+        } else {
+            for (int y = 0; y < k; y++) {
+                bool ans = true;
+                for (int i = 0; i < k; i++) {
+                    int z = (y + i) % k;
+                    if ()
+                }
+            }
+        }
+    }
+}
 
 void P9120() {
-    int T, k;
     cin >> T >> k;
     while (T--) {
-        int n;
         cin >> n;
-        vector<vector<int>> a(k, vector<int>(n, 0));
-        vector<vector<int>> b(k, vector<int>(n, 0));
+        a.assign(k, vector<int>(n, 0));
         for (int i = 0; i < k; i++) {
             for (int j = 0; j < n; j++) {
                 cin >> a[i][j];
             }
         }
-        if (k == 1) {
-            int x = 0, y = inf;
-            for (int j : a[0]) {
-                x = max(x, j);
-                y = min(y, j);
-            }
-            cout << x - y << "\n";
-            continue;
-        }
-        vector<int> mx(k, 0);
-        vector<int> mn(k, inf);
-        for (int i = 0; i < k; i++) {
-            mx[i] = mn[i] = a[i][0];
-        }
-        int minC = inf;
-        for (int j = 1; j < n; j++) {
-            vector<int> z(k);
-            for (int l = 0; l < k; l++) {
-                z[l] = a[l][j];
-            }
-            vector<int> nx = mx;
-            vector<int> ny = mn;
-            int nC = inf, now;
-            for (int i = 0; i < k; i++) {
-                vector<int> nnx = mx;
-                vector<int> nny = mn;
-                int C = 0;
 
-                for (int l = 0; l < k; l++) {
-                    if (z[l] > nnx[l]) nnx[l] = z[l];
-                    if (z[l] < nny[l]) nny[l] = z[l];
-                    C = max(C, nnx[l] - nny[l]);
-                }
-                if (C < nC) {
-                    nC = C, now = i;
-                    nx = nnx;
-                    ny = nny;
-                    minC = nC;
-                }
-                z = turn(z);
-            }
-            mx = nx;
-            mn = ny;
-        }
-        cout << minC << "\n";
     }
 }
 

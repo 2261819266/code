@@ -1,0 +1,25 @@
+{
+    "env": {
+        "myDefaultIncludePath": ["${workspaceFolder}/src"],
+        "myCompilerPath": "/usr/bin/gcc"
+      },
+
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/base/**",
+                "${workspaceFolder}/contrib/**",
+                "${workspaceFolder}/contrib/thrift/lib/cpp/src",
+                "${workspaceFolder}/contrib/orc/c++/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

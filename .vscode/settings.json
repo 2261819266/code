@@ -1,0 +1,5 @@
+{
+    "clangd.fallbackFlags": [
+        "-Ie:/mingw64/include/c++/12.1.0"
+    ]
+}

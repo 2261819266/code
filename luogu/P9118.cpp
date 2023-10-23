@@ -34,17 +34,30 @@ void P9118() {
     }
     int K = std::max(k, 4ll);
     for (int i = 2; i < maxn; i++) {
-        for (int j = 2; j * j <= i; j++) {
-            if (i % j == 0) continue;
+        int t = 0, tt = 0;
+        int ii = i;
+        for (int j = 2; j <= ii; j++) {
+            while (ii % j == 0) {
+                if (t && t != j) {
+                    t = 0;
+                    break;
+                }
+                t = j;
+                ii /= j;
+                tt++;
+            }
         }
+        if (t && tt > 1) continue;
         ll x = 1;
         for (int j = 0; j < K; j++) {
             x *= i;
         }
         if (x > n) break;
         for (int j = K; x <= n; x *= i, j++) {
-            if ((j % 2 != 0 || k > 2) && (j % 3 != 0 || k > 3)) 
+            if ((j % 2 != 0 || k > 2) && (j % 3 != 0 || k > 3)) {
                 ans++;
+                cout << i << " " << j << " " << x << "\n";
+            }
         }
     }
     cout << ans;

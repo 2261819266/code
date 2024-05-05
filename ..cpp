@@ -31,8 +31,6 @@ t gr(t a, t b, t c) {
     return sa * mc * _K;
 }
 
-
-
 template<typename t = ll> 
 t checker(t a, t b, t c) {
     return gl(a, b, c) - gr(a, b, c);
@@ -43,18 +41,22 @@ int main() {
     int n;
     cin >> n;
     for (int i = 1; i <= n; i++) {
+        int nxt = 1;
         for (int j = i; j <= n; j++) {
-            for (int k = j; k <= n; k++) {
+            for (int k = nxt; k <= n; k++) {
                 double s = fl<double>(i, j, k);
+                if (s > 4.01) break;
+                if (s > 3.5) nxt = k;
                 if (fabs(s - _K) < e) {
                     ll d = checker(i, j, k);
-                    
+
                     cout << i << " " << j << " " << k << " " << s - 4 
                         << " " << d << " " << d * 1.0 / gr(i, j, k) << "\n";
 
                     cerr << i << " " << j << " " << k << " " << s - 4 
                         << " " << d << " " << d * 1.0 / gr(i, j, k) << "\n";
                 }
+                // cout << s << "\n";
             }
         }
     }
